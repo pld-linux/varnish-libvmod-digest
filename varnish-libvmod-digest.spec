@@ -6,7 +6,7 @@
 Summary:	Varnish Digest and HMAC Module
 Name:		varnish-libvmod-%{vmod}
 Version:	0.3
-Release:	2
+Release:	3
 License:	BSD
 Group:		Daemons
 Source0:	https://github.com/varnish/libvmod-digest/archive/3.0/%{vmod}-%{version}.tar.gz
