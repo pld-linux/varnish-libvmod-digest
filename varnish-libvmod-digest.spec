@@ -5,20 +5,17 @@
 %define	vmod	digest
 Summary:	Varnish Digest and HMAC Module
 Name:		varnish-libvmod-%{vmod}
-Version:	0.3
-Release:	3
+Version:	1.0.3
+Release:	1
 License:	BSD
 Group:		Daemons
-Source0:	https://github.com/varnish/libvmod-digest/archive/3.0/%{vmod}-%{version}.tar.gz
-# Source0-md5:	e28eb859075eeba82a46d8b352cbf87a
+Source0:	https://github.com/varnish/libvmod-digest/releases/download/libvmod-digest-%{version}/libvmod-digest-%{version}.tar.gz
+# Source0-md5:	f17d332f42287920aec83f132fb91033
 URL:		https://github.com/varnish/libvmod-digest
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	libtool
-BuildRequires:	python-docutils
-BuildRequires:	varnish-source
+BuildRequires:	python3-docutils
+BuildRequires:	varnish-devel
 %{?with_tests:BuildRequires:	varnish}
-%requires_eq_to varnish varnish-source
+%requires_eq_to varnish varnish-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		vmoddir	%(pkg-config --variable=vmoddir varnishapi || echo ERROR)
@@ -28,20 +25,10 @@ Varnish Module (vmod) for computing HMAC, message digests and working
 with base64.
 
 %prep
-%setup -qc
-mv libvmod-%{vmod}-*/* .
+%setup -q -n libvmod-digest-%{version}
 
 %build
-%{__aclocal} -I m4
-%{__libtoolize}
-%{__autoheader}
-%{__automake}
-%{__autoconf}
-
-VARNISHSRC=$(pkg-config --variable=srcdir varnishapi)
 %configure \
-	VARNISHSRC=$VARNISHSRC \
-	VMODDIR=%{vmoddir} \
 	--disable-static
 
 %{__make}
@@ -49,6 +36,7 @@ VARNISHSRC=$(pkg-config --variable=srcdir varnishapi)
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
